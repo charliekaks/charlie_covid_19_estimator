@@ -10,8 +10,8 @@ const covid19ImpactEstimator = (data) => {
 
   if (data.periodType === 'days') {
     const periodInDays = data.timeToElapse;
-    const ifcReT = currentlyInfectedImpact * (2 ** Math.round(periodInDays / 3));
-    impact.infectionsByRequestedTime = ifcReT;
+    const infected = currentlyInfectedImpact * (2 ** Math.round(periodInDays / 3));
+    impact.infectionsByRequestedTime = infected;
 
     const iBRTS = currentlyInfectedSevere * (2 ** Math.round(periodInDays / 3));
     severeImpact.infectionsByRequestedTime = iBRTS;
