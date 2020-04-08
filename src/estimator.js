@@ -9,22 +9,22 @@ const covid19ImpactEstimator = (data) => {
   severeImpact.currentlyInfected = currentlyInfectedSevere;
 
   if (data.periodType === 'days') {
-    const ifcReT = currentlyInfectedImpact * (2 * Math.round(data.timeToElapse / 3));
+    const ifcReT = currentlyInfectedImpact * (2 ** Math.round(data.timeToElapse / 3));
     impact.infectionsByRequestedTime = ifcReT;
 
-    const iBRTS = currentlyInfectedSevere * (2 * Math.round(data.timeToElapse / 3));
+    const iBRTS = currentlyInfectedSevere * (2 ** Math.round(data.timeToElapse / 3));
     severeImpact.infectionsByRequestedTime = iBRTS;
   } else if (data.periodType === 'weeks') {
-    const iBRT = currentlyInfectedImpact * (2 * Math.round((data.timeToElapse * 7) / 3));
+    const iBRT = currentlyInfectedImpact * (2 ** Math.round((data.timeToElapse * 7) / 3));
     impact.infectionsByRequestedTime = iBRT;
 
-    const iBRTS = currentlyInfectedSevere * (2 * Math.round((data.timeToElapse * 7) / 3));
+    const iBRTS = currentlyInfectedSevere * (2 ** Math.round((data.timeToElapse * 7) / 3));
     severeImpact.infectionsByRequestedTime = iBRTS;
   } else if (data.periodType === 'months') {
-    const iBRT = currentlyInfectedImpact * (2 * Math.round((data.timeToElapse * 30) / 3));
+    const iBRT = currentlyInfectedImpact * (2 ** Math.round((data.timeToElapse * 30) / 3));
     impact.infectionsByRequestedTime = iBRT;
 
-    const iBRTS = currentlyInfectedSevere * (2 * Math.round((data.timeToElapse * 30) / 3));
+    const iBRTS = currentlyInfectedSevere * (2 ** Math.round((data.timeToElapse * 30) / 3));
     severeImpact.infectionsByRequestedTime = iBRTS;
   }
 
