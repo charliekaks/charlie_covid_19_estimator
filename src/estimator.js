@@ -6,9 +6,9 @@ function infectionsOverTime(data, infected) {
   if (type === 'days') {
     infections = infected * (2 ** Math.round(period / 3));
   } else if (type === 'weeks') {
-    infections = infected * (2 ** Math.round((period  * 7) / 3));
+    infections = infected * (2 ** Math.round((period * 7) / 3));
   } else if (type === 'months') {
-    infections = infected * (2 ** Math.round((period  * 30) / 3));
+    infections = infected * (2 ** Math.round((period * 30) / 3));
   }
   return infections;
 }
