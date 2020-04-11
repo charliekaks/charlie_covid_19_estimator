@@ -63,7 +63,6 @@ const covid19ImpactEstimator = (data) => {
   if (data.periodType === 'days') {
     const dollarsLossImpact = infectionsImpact * averagePopulation * dailyIncome;
     impact.dollarsInFlight = dollarsLossImpact;
-
     const dollarsLossSevere = infectionsSevere * averagePopulation * dailyIncome;
     severeImpact.dollarsInFlight = dollarsLossSevere;
   } else if (data.periodType === 'weeks') {
