@@ -53,24 +53,11 @@ const covid19ImpactEstimator = (data) => {
   const averagePopulation = data.region.avgDailyIncomePopulation;
   const infectionsImpact = impact.infectionsByRequestedTime;
   const infectionsSevere = severeImpact.infectionsByRequestedTime;
-  if (data.periodType === 'days') {
+
     const dollarsLossImpact = infectionsImpact * averagePopulation * dailyIncome;
     impact.dollarsInFlight = dollarsLossImpact;
     const dollarsLossSevere = infectionsSevere * averagePopulation * dailyIncome;
     severeImpact.dollarsInFlight = dollarsLossSevere;
-  } else if (data.periodType === 'weeks') {
-    const dollarsLossImpact = infectionsImpact * averagePopulation * dailyIncome;
-    impact.dollarsInFlight = dollarsLossImpact * 7;
-
-    const dollarsLossSevere = infectionsSevere * averagePopulation * dailyIncome;
-    severeImpact.dollarsInFlight = dollarsLossSevere * 7;
-  } else if (data.periodType === 'months') {
-    const dollarsLossImpact = infectionsImpact * averagePopulation * dailyIncome;
-    impact.dollarsInFlight = dollarsLossImpact * 30;
-
-    const dollarsLossSevere = infectionsSevere * averagePopulation * dailyIncome;
-    severeImpact.dollarsInFlight = dollarsLossSevere * 30;
-  }
   return {
     data,
     impact,
