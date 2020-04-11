@@ -25,9 +25,9 @@ const covid19ImpactEstimator = (data) => {
 
   impact.infectionsByRequestedTime = infectionsOverTime(data, currentlyInfectedImpact);
   severeImpact.infectionsByRequestedTime = infectionsOverTime(data, currentlyInfectedSevere);
+  // Calculating severe impact cases over requested time
   const severeCasesImpact = Math.trunc(0.15 * impact.infectionsByRequestedTime);
   const severeCasesSevere = Math.trunc(0.15 * severeImpact.infectionsByRequestedTime);
-
   impact.severeCasesByRequestedTime = severeCasesImpact;
   severeImpact.severeCasesByRequestedTime = severeCasesSevere;
 
