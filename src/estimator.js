@@ -1,3 +1,18 @@
+function infectionsOverTime(data, infected) {
+  const period = data.timeToElapse;
+  const type = data.periodType;
+  let infections;
+
+  if (type === 'days') {
+    infections = infected * (2 ** Math.round(period / 3));
+  } else if (type === 'weeks') {
+    infections = infected * (2 ** Math.round(period / 3) * 7);
+  } else if (type === 'months') {
+    infections = infected * (2 ** Math.round(period / 3) * 30);
+  }
+  return infections;
+}
+
 const covid19ImpactEstimator = (data) => {
   const impact = {};
   const severeImpact = {};
@@ -8,30 +23,8 @@ const covid19ImpactEstimator = (data) => {
   const currentlyInfectedSevere = data.reportedCases * 50;
   severeImpact.currentlyInfected = currentlyInfectedSevere;
 
-  const period = data.timeToElapse;
-
-  if (data.periodType === 'days') {
-    const infected = currentlyInfectedImpact * (2 ** Math.round(period / 3));
-    impact.infectionsByRequestedTime = infected;
-
-    const infectedSevere = currentlyInfectedSevere * (2 ** Math.round(period / 3));
-    severeImpact.infectionsByRequestedTime = infectedSevere;
-  } else if (data.periodType === 'weeks') {
-    const periodInDays = period * 7;
-    const infectedByWeeks = currentlyInfectedImpact * (2 ** (Math.round(periodInDays / 3)));
-    impact.infectionsByRequestedTime = infectedByWeeks;
-
-    const infectedByWeeksSevere = currentlyInfectedSevere * (2 ** (Math.round(periodInDays / 3)));
-    severeImpact.infectionsByRequestedTime = infectedByWeeksSevere;
-  } else if (data.periodType === 'months') {
-    const periodInDays = period * 30;
-    const infectionsByMonths = currentlyInfectedImpact * (2 ** Math.round(periodInDays / 3));
-    impact.infectionsByRequestedTime = infectionsByMonths;
-
-    const infectionsByMonthsSevere = currentlyInfectedSevere * (2 ** Math.round(periodInDays / 3));
-    severeImpact.infectionsByRequestedTime = infectionsByMonthsSevere;
-  }
-
+  impact.infectionsByRequestedTime = infectionsOverTime(data, currentlyInfectedImpact);
+  severeImpact.infectionsByRequestedTime = infectionsOverTime(data, currentlyInfectedSevere);
   const severeCasesImpact = Math.round(0.15 * impact.infectionsByRequestedTime);
   const severeCasesSevere = Math.round(0.15 * severeImpact.infectionsByRequestedTime);
 
