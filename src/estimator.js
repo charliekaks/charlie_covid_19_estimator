@@ -43,6 +43,42 @@ const covid19ImpactEstimator = (data) => {
 
   impact.hospitalBedsByRequestedTime = availableBedsImpact;
   severeImpact.hospitalBedsByRequestedTime = availableBedsSevere;
+
+  const impactICUPatients = Math.round(0.05 * impact.infectionsByRequestedTime);
+  const severeICUPatients = Math.round(0.05 * severeImpact.infectionsByRequestedTime);
+
+  impact.casesForICUByRequestedTime = impactICUPatients;
+  severeImpact.casesForICUByRequestedTime = severeICUPatients;
+
+  const impactVentilators = Math.round(0.02 * impact.infectionsByRequestedTime);
+  const severeVentilators = Math.round(0.02 * severeImpact.infectionsByRequestedTime);
+
+  impact.casesForVentilatorsByRequestedTime = impactVentilators;
+  severeImpact.casesForICUByRequestedTime = severeVentilators;
+
+  const dailyIncome = data.region.avgDailyIncomeInUSD;
+  const averagePopulation = data.region.avgDailyIncomePopulation;
+  const infectionsImpact = impact.infectionsByRequestedTime;
+  const infectionsSevere = severeImpact.infectionsByRequestedTime;
+  if (data.periodType === 'days') {
+    const dollarsLossImpact = infectionsImpact * averagePopulation * dailyIncome;
+    impact.dollarsInFlight = dollarsLossImpact;
+
+    const dollarsLossSevere = infectionsSevere * averagePopulation * dailyIncome;
+    severeImpact.dollarsInFlight = dollarsLossSevere;
+  } else if (data.periodType === 'weeks') {
+    const dollarsLossImpact = infectionsImpact * averagePopulation * dailyIncome;
+    impact.dollarsInFlight = dollarsLossImpact * 7;
+
+    const dollarsLossSevere = infectionsSevere * averagePopulation * dailyIncome;
+    severeImpact.dollarsInFlight = dollarsLossSevere * 7;
+  } else if (data.periodType === 'months') {
+    const dollarsLossImpact = infectionsImpact * averagePopulation * dailyIncome;
+    impact.dollarsInFlight = dollarsLossImpact * 30;
+
+    const dollarsLossSevere = infectionsSevere * averagePopulation * dailyIncome;
+    severeImpact.dollarsInFlight = dollarsLossSevere * 30;
+  }
   return {
     data,
     impact,
