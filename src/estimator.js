@@ -1,7 +1,7 @@
 function infectionsOverTime(data, infected) {
   const period = data.timeToElapse;
   const type = data.periodType;
-  let infections;
+  let infections = null;
 
   if (type === 'days') {
     infections = infected * (2 ** Math.round(period / 3));
