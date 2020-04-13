@@ -25,19 +25,18 @@ const covid19ImpactEstimator = (data) => {
 
   impact.infectionsByRequestedTime = infectionsOverTime(data, currentlyInfectedImpact);
   severeImpact.infectionsByRequestedTime = infectionsOverTime(data, currentlyInfectedSevere);
-  // Calculating severe impact cases over requested time
-  const severeCasesImpact = Math.trunc(0.15 * impact.infectionsByRequestedTime);
-  const severeCasesSevere = Math.trunc(0.15 * severeImpact.infectionsByRequestedTime);
-  impact.severeCasesByRequestedTime = severeCasesImpact;
-  severeImpact.severeCasesByRequestedTime = severeCasesSevere;
-  // Calculating the number of beds for impact and severe impact
-  const bedsImpact = Math.trunc(0.35 * data.totalHospitalBeds);
-  const bedsSevere = Math.trunc(0.35 * data.totalHospitalBeds);
-  const availableBedsImpact = Math.trunc(bedsImpact - severeCasesImpact);
-  const availableBedsSevere = Math.trunc(bedsSevere - severeCasesSevere);
+  // Challenge 2.
+  const severePositiveImpact = Math.trunc(0.15 * impact.infectionsByRequestedTime);
+  const severePositiveSevere = Math.trunc(0.15 * severeImpact.infectionsByRequestedTime);
 
-  impact.hospitalBedsByRequestedTime = availableBedsImpact;
-  severeImpact.hospitalBedsByRequestedTime = availableBedsSevere;
+  impact.severeCasesByRequestedTime = severePositiveImpact;
+  severeImpact.severeCasesByRequestedTime = severePositiveSevere;
+
+  const availableBedsImpact = Math.trunc(0.35 * data.totalHospitalBeds);
+  const bedsOverRequestedTime = severePositiveImpact - availableBedsImpact;
+  const bedsOverRequestedTimeSevere = severePositiveSevere - availableBedsImpact;
+  impact.hospitalBedsByRequestedTime = bedsOverRequestedTime;
+  severeImpact.hospitalBedsByRequestedTime = bedsOverRequestedTimeSevere;
 
   const impactICUPatients = Math.trunc(0.05 * impact.infectionsByRequestedTime);
   const severeICUPatients = Math.trunc(0.05 * severeImpact.infectionsByRequestedTime);
